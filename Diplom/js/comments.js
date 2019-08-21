@@ -15,6 +15,11 @@ function commentsVisibleChange() {
 canvasMask.addEventListener('click', commentAdd, false);
 
 function commentAdd(event) {
+    let allCheckBox = $$('.comments__marker-checkbox');
+    for (let i = 0; i < allCheckBox.length; i++) {
+        allCheckBox[i].checked = false;
+    }
+
   newCommentForm.style.left = `${event.offsetX - 22}px`;
   newCommentForm.style.top = `${event.offsetY - 14}px`;
   newCommentForm.classList.remove('hidden');
@@ -105,11 +110,13 @@ function placeComment(comment) {
     checkbox.checked = true;
     checkbox.disabled = false;
     checkbox.addEventListener('click', event => {
-      let commentsForm = $$('.comments__form');
-      for (let i = 0; i < commentsForm.length; i++) {
-        commentsForm[i].style.zIndex = '100';
-      }
-      event.currentTarget.parentNode.style.zIndex = '110';
+        let eventCheckedStatus = event.currentTarget.checked;
+        let allCheckBox = $$('.comments__marker-checkbox');
+        for (let i = 0; i < allCheckBox.length; i++) {
+            allCheckBox[i].checked = false;
+        }
+        event.currentTarget.checked = eventCheckedStatus !== false;
+
     });
   let date = new Date();
   let time = date.getHours()+':'+date.getMinutes()+':'+date.getSeconds(); 
