@@ -8,32 +8,27 @@ function commentsVisibleChange() {
       comments[i].classList.remove('hidden');
     } else {
       comments[i].classList.add('hidden');
-    };
-  }; 
-};
+    }
+  }
+}
 
 canvasMask.addEventListener('click', commentAdd, false);
 
 function commentAdd(event) {
-    let allCheckBox = $$('.comments__marker-checkbox');
-    for (let i = 0; i < allCheckBox.length; i++) {
-        allCheckBox[i].checked = false;
-    }
-
   newCommentForm.style.left = `${event.offsetX - 22}px`;
   newCommentForm.style.top = `${event.offsetY - 14}px`;
   newCommentForm.classList.remove('hidden');
   const submitLoader = newCommentForm.querySelector('.comment_loader');
     submitLoader.classList.add('hidden');
   const checkbox = newCommentForm.querySelector('.comments__marker-checkbox');
-    checkbox.checked = true; 
-    checkbox.disabled = true;  
+    checkbox.checked = false;
+    checkbox.disabled = false;
   const textField = newCommentForm.querySelector('.comments__input');
     textField.focus();
   const closeBtn = newCommentForm.querySelector('.comments__close');
     closeBtn.addEventListener('click', () => newCommentForm.classList.add('hidden'), false);  
   newCommentForm.reset();    
-};
+}
 
 pictureWrap.addEventListener('submit', sendCommentDateAfterSubmit, false);
 
@@ -49,7 +44,7 @@ function sendCommentDateAfterSubmit(event) {
   sendComment(commentData); 
   const submitLoader = event.target.querySelector('.comment_loader');
     submitLoader.classList.remove('hidden');    
-};
+}
 
 function sendComment(data) {
   newCommentForm.reset(); 
@@ -58,7 +53,7 @@ function sendComment(data) {
     let encodedKey = encodeURIComponent(property);
     let encodedValue = encodeURIComponent(data[property]);
     bodyRequest.push(encodedKey + '=' + encodedValue);
-  };
+  }
   bodyRequest = bodyRequest.join('&');
   const request = new XMLHttpRequest();
   request.addEventListener('error', () => console.log(request.responseText));
@@ -67,32 +62,37 @@ function sendComment(data) {
       let response = JSON.parse(request.responseText);
     } else {
       alert(request.responseText);
-    };
+    }
   });
   request.open('POST', 'https://neto-api.herokuapp.com/pic/'+imageID+'/comments', true);
   request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   request.send(bodyRequest);
-};
+}
 
 function commentsLoad(comments) {
+  let allCheckBox = $$('.comments__marker-checkbox');
+  for (let i = 0; i < allCheckBox.length; i++) {
+    allCheckBox[i].checked = false;
+  }
   for (let comment in comments) {
     let curComment = {message: comments[comment].message,
                       left: comments[comment].left,
                       top: comments[comment].top};                  
     renderComment(curComment);
-  };
-};
+  }
+}
 
 function renderComment(comment) {
   const currentFormNode = document.querySelector(`.comments__form[data-left="${comment.left}"][data-top="${comment.top}"]`);
-  if (currentFormNode) { 
+
+  if (currentFormNode) {
     const submitLoader = currentFormNode.querySelector('.comment_loader');
       submitLoader.classList.add('hidden');
     renderNewCommentElement(currentFormNode, comment);
   } else {
     placeComment(comment);
-  }; 
-};
+  }
+}
 
 function placeComment(comment) {
   const commentsFormSimple = newCommentForm;
@@ -107,7 +107,7 @@ function placeComment(comment) {
   const submitLoader = commentElement.querySelector('.comment_loader');
     submitLoader.classList.add('hidden');
   const checkbox = commentElement.querySelector('.comments__marker-checkbox');
-    checkbox.checked = true;
+    checkbox.checked = false;
     checkbox.disabled = false;
     checkbox.addEventListener('click', event => {
         let eventCheckedStatus = event.currentTarget.checked;
@@ -126,16 +126,18 @@ function placeComment(comment) {
     commentMessage.setAttribute('style', 'white-space: pre;');
     commentMessage.textContent = comment.message;
   const closeBtn = commentElement.querySelector('.comments__close');
-    closeBtn.addEventListener('click', () => commentElement.querySelector('.comments__marker-checkbox').checked = false, false) 
+    closeBtn.addEventListener('click', () => commentElement.querySelector('.comments__marker-checkbox').checked = false, false);
   picture.appendChild(commentElement);
   commentsVisibleChange();
-};
+}
 
 function renderNewCommentElement(currentFormNode, comment) {
+
   const currentFormNodeCommentsBody = currentFormNode.querySelector('.comments__body');
   const currentFormNodeLoader = currentFormNode.querySelector('.comment_loader');
   const commentsFormSimple = currentFormNodeCommentsBody.querySelector('.comment');
   const commentElement = commentsFormSimple.cloneNode(true);
+
   let date = new Date();
   let time = date.getHours()+':'+date.getMinutes()+':'+date.getSeconds(); 
   const commentDatetime = commentElement.querySelector('.comment__time');
@@ -146,7 +148,13 @@ function renderNewCommentElement(currentFormNode, comment) {
     currentFormNodeCommentsBody.insertBefore(commentElement, currentFormNodeLoader);
   currentFormNode.reset();
   commentsVisibleChange();
-};
+
+  let allCheckBox = $$('.comments__marker-checkbox');
+  console.log(allCheckBox);
+  for (let i = 0; i < allCheckBox.length; i++) {
+    allCheckBox[i].checked = false;
+  }
+}
 
 function resetComment() {
   let curCommentsArr = pictureWrap.querySelectorAll('[data-top]');
