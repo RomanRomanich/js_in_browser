@@ -1,9 +1,6 @@
 'use strict';
-
-
-
-
-
+let x = 0;
+let y = 0;
 
 image.addEventListener('load', () => {
         createCanvas();
