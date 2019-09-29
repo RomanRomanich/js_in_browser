@@ -69,7 +69,7 @@ burger.addEventListener('click', () => {
     canvas.removeEventListener('mousemove', draw);
     canvas.classList.add('hidden');
     checkMenuPosition();
-    formContainer.style.zIndex = '';
+    formContainer.style.zIndex = '2';
 });
 
 modes.forEach(elem => {
