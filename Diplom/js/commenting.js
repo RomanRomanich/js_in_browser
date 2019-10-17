@@ -1,7 +1,7 @@
 createFormContainer();
 formContainer.addEventListener('click', createNewComment);
 wrap.addEventListener('click', sendingComment);
-comments.addEventListener('click', () => {formContainer.style.zIndex = '2'});
+comments.addEventListener('click', () => {formContainer.style.zIndex = '2'; wrap.appendChild(canvas)});
 document.addEventListener('click', closeForm);
 document.addEventListener('click', markerClick);
 

@@ -2,16 +2,13 @@
 let x = 0;
 let y = 0;
 
-
-
-
 image.addEventListener('load', () => {
         createCanvas();
         formContainer.style.width = `${image.offsetWidth}px`;
         formContainer.style.height = `${image.offsetHeight}px`;
 });
 drawer.addEventListener('click', clickModeDraw);
-drawer.addEventListener('click', () => {formContainer.style.zIndex = '1'});
+drawer.addEventListener('click', () => {formContainer.style.zIndex = '1'; formContainer.appendChild(canvas)});
 colorButtons.addEventListener('click', colorSelect);
 
 

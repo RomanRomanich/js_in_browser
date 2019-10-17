@@ -44,6 +44,7 @@ let imageId;
 const mask = document.querySelector('.mask');
 const drawer = document.querySelector('.draw');
 const wrapForCanv = document.createElement('div');
+const formContainer = document.createElement('div');
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 const colorButtons = document.querySelector('.draw-tools');
@@ -58,7 +59,7 @@ let timer = Date.now();
 let now = null;
 let color = {'red': '#ea5d56', 'yellow': '#f3d135', 'green': '#6cbe47', 'blue': '#53a7f5', 'purple': '#b36ade'};
 
-const formContainer = document.createElement('div');
+
 
 burger.addEventListener('click', () => {
     menu.dataset.state = 'default';
@@ -70,6 +71,7 @@ burger.addEventListener('click', () => {
     canvas.classList.add('hidden');
     checkMenuPosition();
     formContainer.style.zIndex = '2';
+    // formContainer.style.opacity = '0.99';
 });
 
 modes.forEach(elem => {
